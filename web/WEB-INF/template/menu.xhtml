@@ -18,12 +18,16 @@
                     </li>
                     <li class="nav-item">
                         <h:link styleClass="nav-link"
+                                value="Kategorien"
+                                outcome="katalog" />
+                    </li>
+                    <ui:fragment rendered="#{loginBean.loggedIn}">
+                    <li class="nav-item">
+                        <h:link styleClass="nav-link"
                                 value="Produkte"
                                 outcome="produkte" />
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Disabled</a>
-                    </li>
+                    </ui:fragment>
                     <ui:fragment rendered="#{!loginBean.loggedIn}">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdown03"

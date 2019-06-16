@@ -35,24 +35,22 @@
             }
         </style>
         <div class="text-center">
-            <h:message for="login-form" showSummary="true" showDetail="false"/>
-            <h:form class="form-signin" id="login-form">
-            <ui:fragment rendered="#{!loginBean.loggedIn}">
-            <h1 class="h3 mb-3 font-weight-normal">Anmelden</h1>
-            <h:outputLabel for="username" class="sr-only" value="Benutzername" />
-            <h:inputText styleClass="form-control" id="username" value="#{loginBean.username}" />
+            <h:message for="register-form" showSummary="true" showDetail="false"/>
+            <h:form class="form-signin" id="register-form">
+            <ui:fragment rendered="#{!registerBean.registered}">
+            <h1 class="h3 mb-3 font-weight-normal">Registrieren</h1>
+            <h:outputLabel for="username" value="Benutzername" />
+            <h:inputText styleClass="form-control" id="username" value="#{registerBean.username}" />
             <!--<input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>-->
-            <h:outputLabel for="password" class="sr-only" value="Passwort" />
-            <h:inputSecret styleClass="form-control" id="password" value="#{loginBean.password}" />
-            <!--<input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-            <div class="checkbox mb-3">
-              <h:selectBooleanCheckbox value="rememberme" />
-              <h:outputLabel for="rememberme" value="Remember me" />
-            </div>-->
+            <h:outputLabel for="password" value="Passwort" />
+            <h:inputSecret styleClass="form-control" id="password" value="#{registerBean.password}" />
+            <h:outputLabel for="password" value="Passwort wdh." />
+            <h:inputSecret styleClass="form-control" id="passwordRepeat" value="#{registerBean.passwordRepeat}" />
+            <!--<input type="password" id="inputPassword" class="form-control" placeholder="Password" required>-->
             <h:commandButton styleClass="btn btn-lg btn-primary btn-block" value="Sign in"
-                             action="#{loginBean.login}"/>
+                             action="#{registerBean.register}"/>
             </ui:fragment>
-            </h:form>
+          </h:form>
         </div>
    </ui:define>
 </ui:composition>

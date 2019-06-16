@@ -21,8 +21,12 @@ public class Account {
 
     /**
      * Creates a new instance of User
+     * @param name of the user
+     * @param pwdHash SHA-256 hash of user password
      */
-    public Account() {
+    public Account(String name, String pwdHash) {
+        this.name = name;
+        this.pwdHash = pwdHash;
     }
 
     /**
