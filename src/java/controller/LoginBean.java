@@ -5,6 +5,7 @@
  */
 package controller;
 
+import java.io.IOException;
 import utilities.JDBCData;
 
 import javax.enterprise.context.SessionScoped;
@@ -21,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.context.ExternalContext;
 import javax.inject.Inject;
 
 /**
@@ -57,6 +59,8 @@ public class LoginBean implements Serializable {
                     password = null;
                     FacesMessage msg = new FacesMessage("Erfolgreich eingeloggt!");
                     FacesContext.getCurrentInstance().addMessage("login-form", msg);
+                    ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+                    ec.redirect("index.xhtml");
                 } else {
                     FacesMessage msg = new FacesMessage("Password falsch!");
                     FacesContext.getCurrentInstance().addMessage("login-form", msg);
@@ -67,7 +71,7 @@ public class LoginBean implements Serializable {
                 FacesContext.getCurrentInstance().addMessage("login-form", msg);
             }
             rs.close();
-        } catch (NoSuchAlgorithmException | SQLException ex) {
+        } catch (NoSuchAlgorithmException | SQLException | IOException ex) {
             Logger.getLogger(ProductBean.class.getName())
                     .log(Level.SEVERE, null, ex);
         }
