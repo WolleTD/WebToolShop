@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
+        <div class="container">
+            <a class="navbar-brand" href="#">WebToolShop</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#shopnav" aria-controls="shopnav"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon" />
+            </button>
+            <div class="collapse navbar-collapse" id="shopnav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <h:link styleClass="nav-link"
+                                value="Start"
+                                outcome="index" />
+                    </li>
+                    <li class="nav-item">
+                        <h:link styleClass="nav-link"
+                                value="Produkte"
+                                outcome="produkte" />
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Disabled</a>
+                    </li>
+                    <ui:fragment rendered="#{!loginBean.loggedIn}">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown03"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown03">
+                            <h:link styleClass="dropdown-item"
+                                    value="Anmelden"
+                                    outcome="login" />
+                            <h:link styleClass="dropdown-item"
+                                    value="Registrieren"
+                                    outcome="register" />
+                        </div>
+                    </li>
+                    </ui:fragment>
+                    <ui:fragment rendered="#{loginBean.loggedIn}">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown03"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#{loginBean.username}</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown03">
+                            <h:link styleClass="dropdown-item"
+                                    value="Warenkorb"
+                                    outcome="cart" />
+                            <h:form>
+                                <h:commandLink styleClass="dropdown-item"
+                                    value="Abmelden"
+                                    action="#{loginBean.logout()}" />
+                            </h:form>
+                        </div>
+                    </li>
+                    </ui:fragment>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</ui:composition>
