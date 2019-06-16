@@ -1,7 +1,7 @@
 package utilities;
 
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.ApplicationScoped;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,16 +10,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-@Named(value = "ShopDatabase")
-@SessionScoped
-public class ShopDatabase implements Serializable {
+@Named(value = "JDBCData")
+@ApplicationScoped
+public class JDBCData implements Serializable {
 
     private Connection conn = null;
     /**
      * Creates a new instance of JDBCConnect
      * @throws java.lang.ClassNotFoundException
      */
-    public ShopDatabase() throws ClassNotFoundException{
+    public JDBCData() throws ClassNotFoundException{
 
         String dbDriverClass, dbURL;
         dbDriverClass = "com.mysql.jdbc.Driver";
@@ -29,7 +29,7 @@ public class ShopDatabase implements Serializable {
             conn = DriverManager.getConnection(dbURL, "toolshop", "toolshop");
         } catch (Exception ex) {
             Logger
-                    .getLogger(ShopDatabase.class.getName())
+                    .getLogger(JDBCData.class.getName())
                     .log(Level.SEVERE, null, ex);
         }
     }

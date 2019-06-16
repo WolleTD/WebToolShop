@@ -5,7 +5,7 @@
  */
 package controller;
 
-import utilities.ShopDatabase;
+import utilities.JDBCData;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
@@ -34,7 +34,7 @@ public class LoginBean implements Serializable {
     private String username = null;
     private String password = null;
     @Inject
-    private ShopDatabase dbConnect;
+    private JDBCData dbConnect;
     
     /**
      * Creates a new instance of LoginBean
