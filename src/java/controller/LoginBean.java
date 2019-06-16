@@ -44,7 +44,7 @@ public class LoginBean implements Serializable {
     public LoginBean() {
     }
     
-    public void login() {
+    public void login() throws IOException {
         String sql = "SELECT * FROM account WHERE Name = '" + username + "'";
         Connection conn = dbConnect.getConn();
         try {
@@ -71,7 +71,7 @@ public class LoginBean implements Serializable {
                 FacesContext.getCurrentInstance().addMessage("login-form", msg);
             }
             rs.close();
-        } catch (NoSuchAlgorithmException | SQLException | IOException ex) {
+        } catch (NoSuchAlgorithmException | SQLException ex) {
             Logger.getLogger(ProductBean.class.getName())
                     .log(Level.SEVERE, null, ex);
         }
