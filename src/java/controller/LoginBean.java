@@ -44,7 +44,7 @@ public class LoginBean implements Serializable {
     public LoginBean() {
     }
     
-    public void login() throws IOException {
+    public String login() throws IOException {
         String sql = "SELECT * FROM account WHERE Name = '" + username + "'";
         Connection conn = dbConnect.getConn();
         try {
@@ -59,8 +59,7 @@ public class LoginBean implements Serializable {
                     password = null;
                     FacesMessage msg = new FacesMessage("Erfolgreich eingeloggt!");
                     FacesContext.getCurrentInstance().addMessage("login-form", msg);
-                    ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-                    ec.redirect("index.xhtml");
+                    return "index.xhtml";
                 } else {
                     FacesMessage msg = new FacesMessage("Password falsch!");
                     FacesContext.getCurrentInstance().addMessage("login-form", msg);
@@ -75,12 +74,14 @@ public class LoginBean implements Serializable {
             Logger.getLogger(ProductBean.class.getName())
                     .log(Level.SEVERE, null, ex);
         }
+        return "login.xhtml";
     }
 
-    public void logout() {
+    public String logout() {
         username = null;
         FacesMessage msg = new FacesMessage("Erfolgreich ausgeloggt!");
         FacesContext.getCurrentInstance().addMessage("login-form", msg);
+        return "login.xhtml";
     }
     /**
      * @return the username
