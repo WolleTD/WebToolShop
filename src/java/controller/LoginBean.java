@@ -5,9 +5,6 @@
  */
 package controller;
 
-import java.io.IOException;
-import utilities.JDBCData;
-
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -15,15 +12,11 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ExternalContext;
 import javax.inject.Inject;
+import model.Account;
+import utilities.AccountJpaController;
 
 /**
  *
@@ -36,7 +29,7 @@ public class LoginBean implements Serializable {
     private String username = null;
     private String password = null;
     @Inject
-    private JDBCData dbConnect;
+    private AccountJpaController ac;
     
     /**
      * Creates a new instance of LoginBean
@@ -44,37 +37,32 @@ public class LoginBean implements Serializable {
     public LoginBean() {
     }
     
-    public String login() throws IOException {
-        String sql = "SELECT * FROM account WHERE Name = '" + username + "'";
-        Connection conn = dbConnect.getConn();
-        try {
-            ResultSet rs = conn.createStatement().executeQuery(sql);
-            if(rs.first()) {
-                MessageDigest sha256sum = MessageDigest.getInstance("SHA-256");
-                sha256sum.update(password.getBytes(StandardCharsets.UTF_8));
-                byte[] digest = sha256sum.digest();
-                String pwHash = String.format("%064x", new BigInteger(1, digest));
+    public String login() throws NoSuchAlgorithmException {
+        Account acc = ac.findAccount(username);
+        if(acc != null) {
+            MessageDigest sha256sum = MessageDigest.getInstance("SHA-256");
+            sha256sum.update(password.getBytes(StandardCharsets.UTF_8));
+            byte[] digest = sha256sum.digest();
+            String pwHash = String.format("%064x", new BigInteger(1, digest));
 
-                if(rs.getString("Pwd").equals(pwHash)) {
-                    password = null;
-                    FacesMessage msg = new FacesMessage("Erfolgreich eingeloggt!");
-                    FacesContext.getCurrentInstance().addMessage("login-form", msg);
-                    return "index.xhtml";
-                } else {
-                    FacesMessage msg = new FacesMessage("Password falsch!");
-                    FacesContext.getCurrentInstance().addMessage("login-form", msg);
-                }
+            if(acc.getPwd().equals(pwHash)) {
+                password = null;
+                FacesMessage msg = new FacesMessage("Erfolgreich eingeloggt!");
+                FacesContext.getCurrentInstance().addMessage("login-form", msg);
+                return "index.xhtml";
             } else {
                 username = null;
-                FacesMessage msg = new FacesMessage("Benutzername unbekannt!");
+                password = null;
+                FacesMessage msg = new FacesMessage("Password falsch!");
                 FacesContext.getCurrentInstance().addMessage("login-form", msg);
+                return "login.xhtml";
             }
-            rs.close();
-        } catch (NoSuchAlgorithmException | SQLException ex) {
-            Logger.getLogger(ProductBean.class.getName())
-                    .log(Level.SEVERE, null, ex);
+        } else {
+            username = null;
+            FacesMessage msg = new FacesMessage("Benutzername unbekannt!");
+            FacesContext.getCurrentInstance().addMessage("login-form", msg);
+            return "login.xhtml";
         }
-        return "login.xhtml";
     }
 
     public String logout() {
