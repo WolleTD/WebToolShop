@@ -10,7 +10,7 @@ import java.util.List;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import utilities.ProductJpaController;
+import utilities.Data;
 
 /**
  *
@@ -21,7 +21,7 @@ import utilities.ProductJpaController;
 public class ProductBean {
 
     @Inject
-    private ProductJpaController pc;
+    private Data db;
 
     /**
      * Creates a new instance of Produkte
@@ -33,6 +33,6 @@ public class ProductBean {
      * @return the productList
      */
     public List<Product> getProducts() {
-        return pc.findProductEntities();
+        return db.getProductList();
     }
 }

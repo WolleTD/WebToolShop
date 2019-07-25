@@ -11,16 +11,17 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.persistence.PersistenceContext;
 import model.Account;
-import utilities.AccountJpaController;
-import utilities.exceptions.RollbackFailureException;
+import utilities.Data;
 
 /**
  *
@@ -34,8 +35,8 @@ public class RegisterBean implements Serializable {
     private String password = null;
     private String passwordRepeat = null;
     private boolean registered = false;
-    @PersistenceContext
-    private AccountJpaController ac;
+    @Inject
+    private Data db;
     
     /**
      * Creates a new instance of LoginBean
@@ -43,17 +44,25 @@ public class RegisterBean implements Serializable {
     public RegisterBean() {
     }
     
-    public void register() {
+    public String register() {
         if(!password.matches(passwordRepeat)) {
             FacesMessage msg = new FacesMessage("Passwörter stimmen nicht überein!");
             FacesContext.getCurrentInstance().addMessage("register-form", msg);
-            return;
+            return "register.xhtml";
         }
         try {
-            ac.create(new Account(null, false, username, new Date(), password));
+            MessageDigest sha256sum = MessageDigest.getInstance("SHA-256");
+            sha256sum.update(password.getBytes(StandardCharsets.UTF_8));
+            byte[] digest = sha256sum.digest();
+            String pwHash = String.format("%064x", new BigInteger(1, digest));
+            db.setAccount(new Account(null, false, username, new Date(), pwHash));
+            FacesMessage msg = new FacesMessage("Erfolgreich registriert! Einloggen:");
+            FacesContext.getCurrentInstance().addMessage("login-form", msg);
+            return "login.xhtml";
         } catch (Exception ex) {
             Logger.getLogger(ProductBean.class.getName())
                     .log(Level.SEVERE, null, ex);
+            return "register.xhtml";
         }
     }
     

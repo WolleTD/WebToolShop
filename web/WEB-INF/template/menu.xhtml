@@ -16,48 +16,42 @@
                                 value="Start"
                                 outcome="index" />
                     </li>
+                    <ui:fragment rendered="#{loginBean.loggedIn}">
                     <li class="nav-item">
                         <h:link styleClass="nav-link"
                                 value="Kategorien"
                                 outcome="katalog" />
                     </li>
-                    <ui:fragment rendered="#{loginBean.loggedIn}">
+                    </ui:fragment>
                     <li class="nav-item">
                         <h:link styleClass="nav-link"
                                 value="Produkte"
                                 outcome="produkte" />
                     </li>
-                    </ui:fragment>
-                    <ui:fragment rendered="#{!loginBean.loggedIn}">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdown03"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown03">
                             <h:link styleClass="dropdown-item"
-                                    value="Anmelden"
-                                    outcome="login" />
-                            <h:link styleClass="dropdown-item"
-                                    value="Registrieren"
-                                    outcome="register" />
-                        </div>
-                    </li>
-                    </ui:fragment>
-                    <ui:fragment rendered="#{loginBean.loggedIn}">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdown03"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#{loginBean.username}</a>
-                        <div class="dropdown-menu" aria-labelledby="dropdown03">
-                            <h:link styleClass="dropdown-item"
                                     value="Warenkorb"
                                     outcome="cart" />
-                            <h:form>
-                                <h:commandLink styleClass="dropdown-item"
-                                    value="Abmelden"
-                                    action="#{loginBean.logout()}" />
-                            </h:form>
+                            <ui:fragment rendered="#{loginBean.loggedIn}">
+                                <h:form>
+                                    <h:commandLink styleClass="dropdown-item"
+                                        value="Abmelden"
+                                        action="#{loginBean.logout()}" />
+                                </h:form>
+                            </ui:fragment>
+                            <ui:fragment rendered="#{!loginBean.loggedIn}">
+                                <h:link styleClass="dropdown-item"
+                                        value="Anmelden"
+                                        outcome="login" />
+                                <h:link styleClass="dropdown-item"
+                                        value="Registrieren"
+                                        outcome="register" />
+                            </ui:fragment>
                         </div>
                     </li>
-                    </ui:fragment>
                 </ul>
             </div>
         </div>

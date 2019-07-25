@@ -16,7 +16,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import model.Account;
-import utilities.AccountJpaController;
+import utilities.Data;
 
 /**
  *
@@ -29,7 +29,7 @@ public class LoginBean implements Serializable {
     private String username = null;
     private String password = null;
     @Inject
-    private AccountJpaController ac;
+    private Data db;
     
     /**
      * Creates a new instance of LoginBean
@@ -38,7 +38,7 @@ public class LoginBean implements Serializable {
     }
     
     public String login() throws NoSuchAlgorithmException {
-        Account acc = ac.findAccount(username);
+        Account acc = db.findAccount(username);
         if(acc != null) {
             MessageDigest sha256sum = MessageDigest.getInstance("SHA-256");
             sha256sum.update(password.getBytes(StandardCharsets.UTF_8));
