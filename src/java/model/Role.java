@@ -6,7 +6,7 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author eherbertz
+ * @author wolle
  */
 @Entity
 @Table(name = "role")
@@ -46,8 +46,8 @@ public class Role implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "Name")
     private String name;
-    @ManyToMany(mappedBy = "roleCollection")
-    private Collection<Address> addressCollection;
+    @ManyToMany(mappedBy = "roleList")
+    private List<Address> addressList;
 
     public Role() {
     }
@@ -78,12 +78,12 @@ public class Role implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Address> getAddressCollection() {
-        return addressCollection;
+    public List<Address> getAddressList() {
+        return addressList;
     }
 
-    public void setAddressCollection(Collection<Address> addressCollection) {
-        this.addressCollection = addressCollection;
+    public void setAddressList(List<Address> addressList) {
+        this.addressList = addressList;
     }
 
     @Override

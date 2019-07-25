@@ -6,8 +6,8 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author eherbertz
+ * @author wolle
  */
 @Entity
 @Table(name = "address")
@@ -91,13 +91,13 @@ public class Address implements Serializable {
         @JoinColumn(name = "FK_AID", referencedColumnName = "ID")}, inverseJoinColumns = {
         @JoinColumn(name = "FK_RID", referencedColumnName = "ID")})
     @ManyToMany
-    private Collection<Role> roleCollection;
+    private List<Role> roleList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkAddid")
-    private Collection<Supplier> supplierCollection;
+    private List<Supplier> supplierList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkAddid")
-    private Collection<Branch> branchCollection;
+    private List<Branch> branchList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkAddid")
-    private Collection<Customer> customerCollection;
+    private List<Customer> customerList;
 
     public Address() {
     }
@@ -181,39 +181,39 @@ public class Address implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Role> getRoleCollection() {
-        return roleCollection;
+    public List<Role> getRoleList() {
+        return roleList;
     }
 
-    public void setRoleCollection(Collection<Role> roleCollection) {
-        this.roleCollection = roleCollection;
-    }
-
-    @XmlTransient
-    public Collection<Supplier> getSupplierCollection() {
-        return supplierCollection;
-    }
-
-    public void setSupplierCollection(Collection<Supplier> supplierCollection) {
-        this.supplierCollection = supplierCollection;
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
     }
 
     @XmlTransient
-    public Collection<Branch> getBranchCollection() {
-        return branchCollection;
+    public List<Supplier> getSupplierList() {
+        return supplierList;
     }
 
-    public void setBranchCollection(Collection<Branch> branchCollection) {
-        this.branchCollection = branchCollection;
+    public void setSupplierList(List<Supplier> supplierList) {
+        this.supplierList = supplierList;
     }
 
     @XmlTransient
-    public Collection<Customer> getCustomerCollection() {
-        return customerCollection;
+    public List<Branch> getBranchList() {
+        return branchList;
     }
 
-    public void setCustomerCollection(Collection<Customer> customerCollection) {
-        this.customerCollection = customerCollection;
+    public void setBranchList(List<Branch> branchList) {
+        this.branchList = branchList;
+    }
+
+    @XmlTransient
+    public List<Customer> getCustomerList() {
+        return customerList;
+    }
+
+    public void setCustomerList(List<Customer> customerList) {
+        this.customerList = customerList;
     }
 
     @Override

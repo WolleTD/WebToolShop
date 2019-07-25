@@ -6,8 +6,8 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,10 +30,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author eherbertz
+ * @author wolle
  */
 @Entity
-@Table(name = "orders")
+@Table(name = "order")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Order1.findAll", query = "SELECT o FROM Order1 o")
@@ -73,7 +73,7 @@ public class Order1 implements Serializable {
     @ManyToOne
     private Branch fKBranchID;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkOid")
-    private Collection<Orderdetail> orderdetailCollection;
+    private List<Orderdetail> orderdetailList;
 
     public Order1() {
     }
@@ -145,12 +145,12 @@ public class Order1 implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Orderdetail> getOrderdetailCollection() {
-        return orderdetailCollection;
+    public List<Orderdetail> getOrderdetailList() {
+        return orderdetailList;
     }
 
-    public void setOrderdetailCollection(Collection<Orderdetail> orderdetailCollection) {
-        this.orderdetailCollection = orderdetailCollection;
+    public void setOrderdetailList(List<Orderdetail> orderdetailList) {
+        this.orderdetailList = orderdetailList;
     }
 
     @Override

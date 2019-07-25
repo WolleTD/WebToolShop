@@ -6,7 +6,7 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author eherbertz
+ * @author wolle
  */
 @Entity
 @Table(name = "branch")
@@ -48,11 +48,13 @@ public class Branch implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "Name")
     private String name;
+    @OneToMany(mappedBy = "fKBranchID")
+    private List<Orders> ordersList;
     @JoinColumn(name = "FK_ADDID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Address fkAddid;
     @OneToMany(mappedBy = "fKBranchID")
-    private Collection<Order1> order1Collection;
+    private List<Order1> order1List;
 
     public Branch() {
     }
@@ -82,6 +84,15 @@ public class Branch implements Serializable {
         this.name = name;
     }
 
+    @XmlTransient
+    public List<Orders> getOrdersList() {
+        return ordersList;
+    }
+
+    public void setOrdersList(List<Orders> ordersList) {
+        this.ordersList = ordersList;
+    }
+
     public Address getFkAddid() {
         return fkAddid;
     }
@@ -91,12 +102,12 @@ public class Branch implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Order1> getOrder1Collection() {
-        return order1Collection;
+    public List<Order1> getOrder1List() {
+        return order1List;
     }
 
-    public void setOrder1Collection(Collection<Order1> order1Collection) {
-        this.order1Collection = order1Collection;
+    public void setOrder1List(List<Order1> order1List) {
+        this.order1List = order1List;
     }
 
     @Override

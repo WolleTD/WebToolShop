@@ -7,8 +7,8 @@ package model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author eherbertz
+ * @author wolle
  */
 @Entity
 @Table(name = "product")
@@ -87,11 +87,11 @@ public class Product implements Serializable {
         @JoinColumn(name = "FK_PID", referencedColumnName = "ID")}, inverseJoinColumns = {
         @JoinColumn(name = "FK_CATID", referencedColumnName = "ID")})
     @ManyToMany
-    private Collection<Category> categoryCollection;
+    private List<Category> categoryList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkPid")
-    private Collection<Productdetail> productdetailCollection;
+    private List<Productdetail> productdetailList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkPid")
-    private Collection<Orderdetail> orderdetailCollection;
+    private List<Orderdetail> orderdetailList;
 
     public Product() {
     }
@@ -166,30 +166,30 @@ public class Product implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Category> getCategoryCollection() {
-        return categoryCollection;
+    public List<Category> getCategoryList() {
+        return categoryList;
     }
 
-    public void setCategoryCollection(Collection<Category> categoryCollection) {
-        this.categoryCollection = categoryCollection;
-    }
-
-    @XmlTransient
-    public Collection<Productdetail> getProductdetailCollection() {
-        return productdetailCollection;
-    }
-
-    public void setProductdetailCollection(Collection<Productdetail> productdetailCollection) {
-        this.productdetailCollection = productdetailCollection;
+    public void setCategoryList(List<Category> categoryList) {
+        this.categoryList = categoryList;
     }
 
     @XmlTransient
-    public Collection<Orderdetail> getOrderdetailCollection() {
-        return orderdetailCollection;
+    public List<Productdetail> getProductdetailList() {
+        return productdetailList;
     }
 
-    public void setOrderdetailCollection(Collection<Orderdetail> orderdetailCollection) {
-        this.orderdetailCollection = orderdetailCollection;
+    public void setProductdetailList(List<Productdetail> productdetailList) {
+        this.productdetailList = productdetailList;
+    }
+
+    @XmlTransient
+    public List<Orderdetail> getOrderdetailList() {
+        return orderdetailList;
+    }
+
+    public void setOrderdetailList(List<Orderdetail> orderdetailList) {
+        this.orderdetailList = orderdetailList;
     }
 
     @Override

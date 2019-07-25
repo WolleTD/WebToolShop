@@ -6,7 +6,7 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author eherbertz
+ * @author wolle
  */
 @Entity
 @Table(name = "customer")
@@ -39,7 +39,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Customer.findByLastname", query = "SELECT c FROM Customer c WHERE c.lastname = :lastname")
     , @NamedQuery(name = "Customer.findByTitle", query = "SELECT c FROM Customer c WHERE c.title = :title")
     , @NamedQuery(name = "Customer.findByEMail", query = "SELECT c FROM Customer c WHERE c.eMail = :eMail")
-    , @NamedQuery(name = "Customer.findByTel", query = "SELECT c FROM Customer c WHERE c.tel = :tel")})
+    , @NamedQuery(name = "Customer.findByTel", query = "SELECT c FROM Customer c WHERE c.tel = :tel")
+    , @NamedQuery(name = "Customer.findByAccount", query = "SELECT c FROM Customer c WHERE c.fkAccid = :account")})
 public class Customer implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -72,6 +73,8 @@ public class Customer implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "Tel")
     private String tel;
+    @OneToMany(mappedBy = "fkCid")
+    private List<Orders> ordersList;
     @JoinColumn(name = "FK_ADDID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Address fkAddid;
@@ -79,7 +82,7 @@ public class Customer implements Serializable {
     @ManyToOne(optional = false)
     private Account fkAccid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkCid")
-    private Collection<Order1> order1Collection;
+    private List<Order1> order1List;
 
     public Customer() {
     }
@@ -144,6 +147,15 @@ public class Customer implements Serializable {
         this.tel = tel;
     }
 
+    @XmlTransient
+    public List<Orders> getOrdersList() {
+        return ordersList;
+    }
+
+    public void setOrdersList(List<Orders> ordersList) {
+        this.ordersList = ordersList;
+    }
+
     public Address getFkAddid() {
         return fkAddid;
     }
@@ -161,12 +173,12 @@ public class Customer implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Order1> getOrder1Collection() {
-        return order1Collection;
+    public List<Order1> getOrder1List() {
+        return order1List;
     }
 
-    public void setOrder1Collection(Collection<Order1> order1Collection) {
-        this.order1Collection = order1Collection;
+    public void setOrder1List(List<Order1> order1List) {
+        this.order1List = order1List;
     }
 
     @Override

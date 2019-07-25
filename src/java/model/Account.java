@@ -6,8 +6,8 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author eherbertz
+ * @author wolle
  */
 @Entity
 @Table(name = "account")
@@ -68,7 +68,7 @@ public class Account implements Serializable {
     @Column(name = "Pwd")
     private String pwd;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkAccid")
-    private Collection<Customer> customerCollection;
+    private List<Customer> customerList;
 
     public Account() {
     }
@@ -126,12 +126,12 @@ public class Account implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Customer> getCustomerCollection() {
-        return customerCollection;
+    public List<Customer> getCustomerList() {
+        return customerList;
     }
 
-    public void setCustomerCollection(Collection<Customer> customerCollection) {
-        this.customerCollection = customerCollection;
+    public void setCustomerList(List<Customer> customerList) {
+        this.customerList = customerList;
     }
 
     @Override
