@@ -25,6 +25,8 @@ public class CartBean implements Serializable {
     private HashMap<Product,Integer> productList = new HashMap();
     @Inject
     private Data dbBean;
+    @Inject
+    private LoginBean lb;
     
     /**
      * Creates a new instance of CartBean
@@ -62,6 +64,15 @@ public class CartBean implements Serializable {
         }
         else {
             this.productList.replace(product, newAmount);
+        }
+    }
+    
+    public String placeOrder() {
+        if(!lb.getLoggedIn()) {
+            return "login.xhtml";
+        }
+        else {
+            return "checkout.xhtml";
         }
     }
 }

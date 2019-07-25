@@ -16,7 +16,9 @@ import java.sql.ResultSet;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.persistence.PersistenceContext;
@@ -31,12 +33,20 @@ import utilities.Data;
 @RequestScoped
 public class RegisterBean implements Serializable {
 
+    private String firstname = null;
+    private String lastname = null;
+    private String email = null;
+    private String phone = null;
     private String username = null;
     private String password = null;
     private String passwordRepeat = null;
     private boolean registered = false;
+    private boolean validLastName = false;
+    private boolean validPhone = false;
     @Inject
     private Data db;
+    @Inject
+    private LoginBean lb;
     
     /**
      * Creates a new instance of LoginBean
@@ -45,6 +55,9 @@ public class RegisterBean implements Serializable {
     }
     
     public String register() {
+        if(!this.validLastName || !this.validPhone) {
+            return "register.xhtml";
+        }
         if(!password.matches(passwordRepeat)) {
             FacesMessage msg = new FacesMessage("Passwörter stimmen nicht überein!");
             FacesContext.getCurrentInstance().addMessage("register-form", msg);
@@ -56,9 +69,9 @@ public class RegisterBean implements Serializable {
             byte[] digest = sha256sum.digest();
             String pwHash = String.format("%064x", new BigInteger(1, digest));
             db.setAccount(new Account(null, false, username, new Date(), pwHash));
-            FacesMessage msg = new FacesMessage("Erfolgreich registriert! Einloggen:");
-            FacesContext.getCurrentInstance().addMessage("login-form", msg);
-            return "login.xhtml";
+            lb.setUsername(username);
+            lb.setPassword(null);
+            return "index.xhtml";
         } catch (Exception ex) {
             Logger.getLogger(ProductBean.class.getName())
                     .log(Level.SEVERE, null, ex);
@@ -127,5 +140,85 @@ public class RegisterBean implements Serializable {
      */
     public void setRegistered(boolean registered) {
         this.registered = registered;
+    }
+    
+    public void validateLastName(FacesContext context, UIComponent comp, Object value){
+        String regex = "[A-Z][a-z]{2,}";
+        String name = (String) value;
+        this.validLastName = false;
+        if(!Pattern.matches(regex, name)){
+            FacesMessage msg = new FacesMessage("Nachname muss aus mind. 3 Zeichen bestehen!");
+            context.addMessage("register-form", msg);
+        } else {
+            this.validLastName = true;
+        }
+    }
+    
+    public void validatePhone(FacesContext context, UIComponent comp, Object value){
+        String regex = "(\\+|0)?\\d([/ -]?\\d)+";
+        String telnr = (String) value;
+        this.validPhone = false;
+        if(!Pattern.matches(regex, telnr)){
+            FacesMessage msg = new FacesMessage("TelNr muss mit 0 beginnen, 8-15 Zahlen und nur Zahlen");
+            context.addMessage("register-form", msg);
+        } else {
+            this.validPhone = true;
+        }
+    }
+
+    /**
+     * @return the firstname
+     */
+    public String getFirstname() {
+        return firstname;
+    }
+
+    /**
+     * @param firstname the firstname to set
+     */
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    /**
+     * @return the lastname
+     */
+    public String getLastname() {
+        return lastname;
+    }
+
+    /**
+     * @param lastname the lastname to set
+     */
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * @param email the email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * @return the phone
+     */
+    public String getPhone() {
+        return phone;
+    }
+
+    /**
+     * @param phone the phone to set
+     */
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

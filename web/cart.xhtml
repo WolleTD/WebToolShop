@@ -46,18 +46,12 @@
                         </f:facet>
                         <h:outputText value="#{cartEntry.value*cartEntry.key.netPrice}"/>
                     </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Abbestellen"/>
-                        </f:facet>
-                    </h:column>
                 </h:dataTable>
                 <h:panelGrid columns="2">
                     <h:commandButton
                         id="bestellBtn"
                         value="Bestellen"
-                        action="#{warenkorbBean.bestellen}"
-                        style="width: 250px;height: 25px;">
+                        action="#{cartBean.placeOrder}">
                         <f:ajax render="@form" execute="@form"/>
                     </h:commandButton>
                     <h:message
