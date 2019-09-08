@@ -17,26 +17,26 @@
                         <f:facet name="header">
                             <h:outputText value="Produkt"/>
                         </f:facet>
-                        <h:outputText value="#{cartEntry.key.name}"/>
+                        <h:outputText value="#{cartEntry.product.name}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value="Einzelpreis"/>
                         </f:facet>
-                        <h:outputText value="#{cartEntry.key.netPrice}"/>
+                        <h:outputText value="#{cartEntry.product.netPrice}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value="Menge"/>
                         </f:facet>
-                        <h:commandLink action="#{cartBean.changeAmount(cartEntry.key, cartEntry.value-1)}"
+                        <h:commandLink action="#{cartBean.changeAmount(cartEntry.product, cartEntry.amount-1)}"
                                        value="-" 
                                        style="font-weight: bold"/>
-                        <h:outputText value="#{cartEntry.value}"/>
-                        <h:commandLink action="#{cartBean.changeAmount(cartEntry.key, cartEntry.value+1)}"
+                        <h:outputText value="#{cartEntry.amount}"/>
+                        <h:commandLink action="#{cartBean.changeAmount(cartEntry.product, cartEntry.amount+1)}"
                                        value="+" 
                                        style="font-weight: bold"/>
-                        <h:commandLink action="#{cartBean.changeAmount(cartEntry.key, 0)}"
+                        <h:commandLink action="#{cartBean.changeAmount(cartEntry.product, 0)}"
                                        value="X" 
                                        style="font-weight: bold"/>
                     </h:column>
@@ -44,7 +44,7 @@
                         <f:facet name="header">
                             <h:outputText value="Gesamtpreis"/>
                         </f:facet>
-                        <h:outputText value="#{cartEntry.value*cartEntry.key.netPrice}"/>
+                        <h:outputText value="#{cartEntry.amount*cartEntry.product.netPrice}"/>
                     </h:column>
                 </h:dataTable>
                 <h:panelGrid columns="2">

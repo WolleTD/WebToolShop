@@ -9,9 +9,10 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
+import java.util.ArrayList;
 import javax.inject.Inject;
 import model.Product;
+import utilities.CartEntry;
 import utilities.Data;
 
 /**
@@ -37,20 +38,27 @@ public class CartBean implements Serializable {
     /**
      * @return the productList
      */
-    public HashMap<Product,Integer> getProductList() {
-        return productList;
+    public ArrayList<CartEntry> getProductList() {
+        ArrayList<CartEntry> plist = new ArrayList();
+        this.productList.entrySet().forEach((entry) -> {
+            plist.add(new CartEntry(entry.getKey(), entry.getValue()));
+        });
+        return plist;
     }
 
     /**
      * @param productList the productList to set
      */
-    public void setProductList(HashMap<Product,Integer> productList) {
-        this.productList = productList;
+    public void setProductList(ArrayList<CartEntry> productList) {
+        this.productList = new HashMap();
+        productList.forEach((entry) -> {
+            this.productList.put(entry.getProduct(), entry.getAmount());
+        });
     }
     
     public void addToCart(Product product) {
         if(this.productList.containsKey(product)) {
-            int amount = this.productList.get(product).intValue() + 1;
+            int amount = this.productList.get(product) + 1;
             this.productList.replace(product, amount);
         }
         else {
