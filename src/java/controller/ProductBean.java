@@ -6,11 +6,11 @@
 package controller;
 
 import model.Product;
-import utilities.JDBCData;
 import java.util.List;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import utilities.Data;
 
 /**
  *
@@ -21,7 +21,7 @@ import javax.inject.Inject;
 public class ProductBean {
 
     @Inject
-    private JDBCData dbConnect;
+    private Data db;
 
     /**
      * Creates a new instance of Produkte
@@ -33,6 +33,6 @@ public class ProductBean {
      * @return the productList
      */
     public List<Product> getProducts() {
-        return dbConnect.getProductList();
+        return db.getProductList();
     }
 }

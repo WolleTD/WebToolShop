@@ -29,14 +29,16 @@
                         </svg>
                     </ui:fragment>
                     <div class="card-body">
-                        <span class="card-text">#{product.type}</span>
+                        <span class="card-text">#{product.categoryList[0].categoryName}</span>
                         <h5 class="card-title text-truncate">#{product.name}</h5>
                         <p class="card-text">#{product.comment}</p>
-                        <a href="#" class="btn btn-primary">
-                            <h:outputText value="#{product.netPrice}">
-                                <f:convertNumber type="currency" currencySymbol="€" />
-                            </h:outputText>
-                        </a>
+                        <h:form class="form-signin" id="login-form">
+                            <h:commandLink class="btn btn-primary" action="#{cartBean.addToCart(product)}">
+                                <h:outputText value="#{product.netPrice}">
+                                    <f:convertNumber type="currency" currencySymbol="€" />
+                                </h:outputText>
+                            </h:commandLink>
+                        </h:form>
                     </div>
                 </div>
             </div>

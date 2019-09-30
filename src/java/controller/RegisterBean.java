@@ -5,8 +5,6 @@
  */
 package controller;
 
-import utilities.JDBCData;
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -14,14 +12,18 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.persistence.PersistenceContext;
+import model.Account;
+import utilities.Data;
 
 /**
  *
@@ -31,12 +33,20 @@ import javax.inject.Inject;
 @RequestScoped
 public class RegisterBean implements Serializable {
 
+    private String firstname = null;
+    private String lastname = null;
+    private String email = null;
+    private String phone = null;
     private String username = null;
     private String password = null;
     private String passwordRepeat = null;
     private boolean registered = false;
+    private boolean validLastName = false;
+    private boolean validPhone = false;
     @Inject
-    private JDBCData dbConnect;
+    private Data db;
+    @Inject
+    private LoginBean lb;
     
     /**
      * Creates a new instance of LoginBean
@@ -44,46 +54,31 @@ public class RegisterBean implements Serializable {
     public RegisterBean() {
     }
     
-    public void register() {
+    public String register() {
+        if(!this.validLastName || !this.validPhone) {
+            return "register.xhtml";
+        }
         if(!password.matches(passwordRepeat)) {
             FacesMessage msg = new FacesMessage("Passwörter stimmen nicht überein!");
             FacesContext.getCurrentInstance().addMessage("register-form", msg);
-            return;
+            return "register.xhtml";
         }
-        String sql = "SELECT * FROM account WHERE Name = '" + username + "'";
-        Connection conn = dbConnect.getConn();
         try {
-            ResultSet rs = conn.createStatement().executeQuery(sql);
-            if(rs.first()) {
-                FacesMessage msg = new FacesMessage("Benutzername bereits vergeben!");
-                FacesContext.getCurrentInstance().addMessage("register-form", msg);
-            } else {
-                MessageDigest sha256sum = MessageDigest.getInstance("SHA-256");
-                sha256sum.update(password.getBytes(StandardCharsets.UTF_8));
-                byte[] digest = sha256sum.digest();
-                String pwHash = String.format("%064x", new BigInteger(1, digest));
-                
-                sql = "INSERT INTO account VALUES (NULL, 1, '" + username + "', "
-                        + "NOW(), '" + pwHash + "')";
-                if(conn.createStatement().executeUpdate(sql) == 1) {
-                    FacesMessage msg = new FacesMessage("Registrierung erfolgreich!");
-                    FacesContext.getCurrentInstance().addMessage("register-form", msg);
-                    setRegistered(true);
-                } else {
-                    FacesMessage msg = new FacesMessage("Registrierung fehlgeschlagen!");
-                    FacesContext.getCurrentInstance().addMessage("register-form", msg);
-                }
-            }
-            rs.close();
-        } catch (NoSuchAlgorithmException | SQLException ex) {
+            MessageDigest sha256sum = MessageDigest.getInstance("SHA-256");
+            sha256sum.update(password.getBytes(StandardCharsets.UTF_8));
+            byte[] digest = sha256sum.digest();
+            String pwHash = String.format("%064x", new BigInteger(1, digest));
+            db.setAccount(new Account(null, false, username, new Date(), pwHash));
+            lb.setUsername(username);
+            lb.setPassword(null);
+            return "index.xhtml";
+        } catch (Exception ex) {
             Logger.getLogger(ProductBean.class.getName())
                     .log(Level.SEVERE, null, ex);
+            return "register.xhtml";
         }
     }
-
-    public void logout() {
-        username = null;
-    }
+    
     /**
      * @return the username
      */
@@ -145,5 +140,85 @@ public class RegisterBean implements Serializable {
      */
     public void setRegistered(boolean registered) {
         this.registered = registered;
+    }
+    
+    public void validateLastName(FacesContext context, UIComponent comp, Object value){
+        String regex = "[A-Z][a-z]{2,}";
+        String name = (String) value;
+        this.validLastName = false;
+        if(!Pattern.matches(regex, name)){
+            FacesMessage msg = new FacesMessage("Nachname muss aus mind. 3 Zeichen bestehen!");
+            context.addMessage("register-form", msg);
+        } else {
+            this.validLastName = true;
+        }
+    }
+    
+    public void validatePhone(FacesContext context, UIComponent comp, Object value){
+        String regex = "(\\+|0)?\\d([/ -]?\\d)+";
+        String telnr = (String) value;
+        this.validPhone = false;
+        if(!Pattern.matches(regex, telnr)){
+            FacesMessage msg = new FacesMessage("TelNr muss mit 0 beginnen, 8-15 Zahlen und nur Zahlen");
+            context.addMessage("register-form", msg);
+        } else {
+            this.validPhone = true;
+        }
+    }
+
+    /**
+     * @return the firstname
+     */
+    public String getFirstname() {
+        return firstname;
+    }
+
+    /**
+     * @param firstname the firstname to set
+     */
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    /**
+     * @return the lastname
+     */
+    public String getLastname() {
+        return lastname;
+    }
+
+    /**
+     * @param lastname the lastname to set
+     */
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * @param email the email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * @return the phone
+     */
+    public String getPhone() {
+        return phone;
+    }
+
+    /**
+     * @param phone the phone to set
+     */
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

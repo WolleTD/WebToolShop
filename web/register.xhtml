@@ -1,7 +1,8 @@
 <ui:composition template="WEB-INF/template/master.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="content">
         <style type="text/css">
             .form-signin {
@@ -39,11 +40,28 @@
             <h:form class="form-signin" id="register-form">
             <ui:fragment rendered="#{!registerBean.registered}">
             <h1 class="h3 mb-3 font-weight-normal">Registrieren</h1>
+            <h:outputLabel for="username" value="Name" />
+            <h:inputText styleClass="form-control" id="lastname" value="#{registerBean.lastname}"
+                         validator="#{registerBean.validateLastName}" />
+            <h:outputLabel for="username" value="Vorname" />
+            <h:inputText styleClass="form-control" id="firstname" value="#{registerBean.firstname}">
+                <f:validateRegex pattern="[A-Z][a-z]{2,}" for="firstname"/>
+            </h:inputText>
+            <h:outputLabel for="username" value="EMail Adresse" />
+            <h:inputText styleClass="form-control" id="email" value="#{registerBean.email}">
+                <f:validator validatorId="emailValidator"/>
+            </h:inputText>
+            <h:outputLabel for="username" value="Telefon" />
+            <h:inputText styleClass="form-control" id="phone" value="#{registerBean.phone}"
+                         validator="#{registerBean.validatePhone}" />
             <h:outputLabel for="username" value="Benutzername" />
-            <h:inputText styleClass="form-control" id="username" value="#{registerBean.username}" />
-            <!--<input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>-->
+            <h:inputText styleClass="form-control" id="username" value="#{registerBean.username}">
+                <f:validateRegex pattern="[a-zA-Z_0-9]{3,50}" for="username"/>
+            </h:inputText>
             <h:outputLabel for="password" value="Passwort" />
-            <h:inputSecret styleClass="form-control" id="password" value="#{registerBean.password}" />
+            <h:inputSecret styleClass="form-control" id="password" value="#{registerBean.password}">
+                <f:validator validatorId="pwdValidator"/>
+            </h:inputSecret>
             <h:outputLabel for="password" value="Passwort wdh." />
             <h:inputSecret styleClass="form-control" id="passwordRepeat" value="#{registerBean.passwordRepeat}" />
             <!--<input type="password" id="inputPassword" class="form-control" placeholder="Password" required>-->
