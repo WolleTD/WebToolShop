@@ -84,13 +84,4 @@ public class CartBean implements Serializable {
             this.productList.replace(product, newAmount);
         }
     }
-    
-    public String placeOrder() {
-        if(!lb.getLoggedIn()) {
-            return "login.xhtml";
-        }
-        else {
-            return "checkout.xhtml";
-        }
-    }
 }
