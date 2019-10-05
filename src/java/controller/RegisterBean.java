@@ -181,7 +181,7 @@ public class RegisterBean implements Serializable {
      * @param value
      */
     public void validatePhone(FacesContext context, UIComponent comp, Object value){
-        String regex = "(\\+|0)?\\d([/ -]?\\d)+";
+        String regex = "(?:\\+|0)\\d+([/ -]?\\d)+";
         String telnr = (String) value;
         this.validPhone = false;
         if(!Pattern.matches(regex, telnr)){
