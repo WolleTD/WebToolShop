@@ -15,7 +15,7 @@ import javax.faces.validator.ValidatorException;
 
 /**
  *
- * @author Patrick
+ * @author Eicke Herbertz
  */
 @FacesValidator(value = "emailValidator")
 public class emailValidator implements Validator{

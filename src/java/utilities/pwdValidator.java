@@ -15,7 +15,7 @@ import javax.faces.validator.ValidatorException;
 
 /**
  *
- * @author Patrick
+ * @author Eicke Herbertz
  */
 @FacesValidator(value = "pwdValidator")
 public class pwdValidator implements Validator{

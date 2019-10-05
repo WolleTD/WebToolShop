@@ -27,7 +27,7 @@ import utilities.Data;
 
 /**
  *
- * @author eherbertz
+ * @author Eicke Herbertz
  */
 @Named(value = "registerBean")
 @RequestScoped

@@ -17,7 +17,7 @@ import utilities.Data;
 
 /**
  *
- * @author wolle
+ * @author Eicke Herbertz
  */
 @Named(value = "cartBean")
 @SessionScoped

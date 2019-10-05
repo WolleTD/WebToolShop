@@ -21,7 +21,7 @@ import model.Product;
 
 /**
  *
- * @author Patrick
+ * @author Eicke Herbertz
  */
 @Named(value = "dBBean")
 @SessionScoped

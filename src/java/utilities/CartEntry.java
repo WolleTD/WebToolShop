@@ -9,7 +9,7 @@ import model.Product;
 
 /**
  *
- * @author wolle
+ * @author Eicke Herbertz
  */
 public class CartEntry {
     private Product product;

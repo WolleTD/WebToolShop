@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author wolle
+ * @author Eicke Herbertz
  */
 @Entity
 @Table(name = "branch")
