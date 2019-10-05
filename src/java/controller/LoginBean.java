@@ -28,6 +28,7 @@ public class LoginBean implements Serializable {
 
     private String username = null;
     private String password = null;
+    private String returnUrl = "index.xhtml";
     @Inject
     private Data db;
     
@@ -49,7 +50,7 @@ public class LoginBean implements Serializable {
                 password = null;
                 FacesMessage msg = new FacesMessage("Erfolgreich eingeloggt!");
                 FacesContext.getCurrentInstance().addMessage("login-form", msg);
-                return "index.xhtml";
+                return returnUrl;
             } else {
                 username = null;
                 password = null;
@@ -67,6 +68,7 @@ public class LoginBean implements Serializable {
 
     public String logout() {
         username = null;
+        returnUrl = "index.xhtml";
         FacesMessage msg = new FacesMessage("Erfolgreich ausgeloggt!");
         FacesContext.getCurrentInstance().addMessage("login-form", msg);
         return "login.xhtml";
@@ -104,5 +106,19 @@ public class LoginBean implements Serializable {
      */
     public boolean getLoggedIn() {
         return username != null && password == null;
+    }
+
+    /**
+     * @return the returnUrl
+     */
+    public String getReturnUrl() {
+        return returnUrl;
+    }
+
+    /**
+     * @param returnUrl the returnUrl to set
+     */
+    public void setReturnUrl(String returnUrl) {
+        this.returnUrl = returnUrl;
     }
 }
