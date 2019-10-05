@@ -39,7 +39,7 @@ public class emailValidator implements Validator{
                 + "\\x0c\\x0e-\\x7f])+)\\])";
         
         if (!Pattern.matches(pattern, emailString)){
-            msg = "Email eingabe überprüfen!";        
+            msg = "E-Mail Adresse ist ungültig!";
             fm = new FacesMessage(UIID, msg);
             throw new ValidatorException(fm);
         }

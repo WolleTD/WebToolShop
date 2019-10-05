@@ -60,7 +60,14 @@ public class RegisterBean implements Serializable {
      * @return page to be redirected to
      */
     public String register() {
-        if(!this.validLastName || !this.validPhone) {
+        if(!this.validLastName) {
+            FacesMessage msg = new FacesMessage("Nachname zu kurz!");
+            FacesContext.getCurrentInstance().addMessage("register-form", msg);
+            return "register.xhtml";
+        }
+        if(!this.validPhone) {
+            FacesMessage msg = new FacesMessage("Telefonnummer ungültig!");
+            FacesContext.getCurrentInstance().addMessage("register-form", msg);
             return "register.xhtml";
         }
         if(!password.matches(passwordRepeat)) {
@@ -78,6 +85,8 @@ public class RegisterBean implements Serializable {
             lb.setPassword(null);
             return "index.xhtml";
         } catch (Exception ex) {
+            FacesMessage msg = new FacesMessage("Benutzername bereits vergeben!");
+            FacesContext.getCurrentInstance().addMessage("register-form", msg);
             Logger.getLogger(ProductBean.class.getName())
                     .log(Level.SEVERE, null, ex);
             return "register.xhtml";
