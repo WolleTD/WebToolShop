@@ -30,7 +30,7 @@ public class ProductBean {
     }
 
     /**
-     * @return the productList
+     * @return the complete product list
      */
     public List<Product> getProducts() {
         return db.getProductList();

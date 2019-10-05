@@ -15,6 +15,12 @@ public class CartEntry {
     private Product product;
     private Integer amount;
     
+    /**
+     * Create a new cart entry. This intermediate type is required
+     * as a HashMap isn't supported by Glassfish 4
+     * @param product for this cart entry
+     * @param amount to initialize
+     */
     public CartEntry(Product product, Integer amount) {
         this.product = product;
         this.amount = amount;

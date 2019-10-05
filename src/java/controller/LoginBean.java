@@ -38,6 +38,13 @@ public class LoginBean implements Serializable {
     public LoginBean() {
     }
     
+    /**
+     * Validate username and password against database
+     * if credentials are valid, username and password aren't
+     * reset to null and flag the user as logged in
+     * @return returnUrl on success, login.xhtml on error
+     * @throws NoSuchAlgorithmException
+     */
     public String login() throws NoSuchAlgorithmException {
         Account acc = db.findAccount(username);
         if(acc != null) {
@@ -66,6 +73,10 @@ public class LoginBean implements Serializable {
         }
     }
 
+    /**
+     * Logout user and reset returnURL
+     * @return login.xhtml
+     */
     public String logout() {
         username = null;
         returnUrl = "index.xhtml";

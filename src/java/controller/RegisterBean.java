@@ -54,6 +54,11 @@ public class RegisterBean implements Serializable {
     public RegisterBean() {
     }
     
+    /**
+     * Add a new user to the database, provided that all inputs
+     * are valid and no user with that username already exists.
+     * @return page to be redirected to
+     */
     public String register() {
         if(!this.validLastName || !this.validPhone) {
             return "register.xhtml";
@@ -142,6 +147,12 @@ public class RegisterBean implements Serializable {
         this.registered = registered;
     }
     
+    /**
+     * Validator for last name – must contain at least 3 characters
+     * @param context
+     * @param comp
+     * @param value
+     */
     public void validateLastName(FacesContext context, UIComponent comp, Object value){
         String regex = "[A-Z][a-z]{2,}";
         String name = (String) value;
@@ -154,6 +165,12 @@ public class RegisterBean implements Serializable {
         }
     }
     
+    /**
+     * Validator for phone number
+     * @param context
+     * @param comp
+     * @param value
+     */
     public void validatePhone(FacesContext context, UIComponent comp, Object value){
         String regex = "(\\+|0)?\\d([/ -]?\\d)+";
         String telnr = (String) value;

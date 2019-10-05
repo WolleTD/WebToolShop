@@ -36,7 +36,7 @@ public class CartBean implements Serializable {
     }
 
     /**
-     * @return the productList
+     * @return the current items in the cart
      */
     public ArrayList<CartEntry> getProductList() {
         ArrayList<CartEntry> plist = new ArrayList();
@@ -47,6 +47,7 @@ public class CartBean implements Serializable {
     }
 
     /**
+     * Set the whole product list in the cart
      * @param productList the productList to set
      */
     public void setProductList(ArrayList<CartEntry> productList) {
@@ -56,6 +57,10 @@ public class CartBean implements Serializable {
         });
     }
     
+    /**
+     * Adds an item to the cart
+     * @param product to add
+     */
     public void addToCart(Product product) {
         if(this.productList.containsKey(product)) {
             int amount = this.productList.get(product) + 1;
@@ -66,6 +71,11 @@ public class CartBean implements Serializable {
         }
     }
     
+    /**
+     * Change the amount of a position in the cart
+     * @param product to change amount of
+     * @param newAmount to set
+     */
     public void changeAmount(Product product, int newAmount) {
         if(newAmount == 0) {
             this.productList.remove(product);
