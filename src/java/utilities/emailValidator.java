@@ -40,7 +40,7 @@ public class emailValidator implements Validator{
         
         if (!Pattern.matches(pattern, emailString)){
             msg = "E-Mail Adresse ist ungültig!";
-            fm = new FacesMessage(UIID, msg);
+            fm = new FacesMessage(msg);
             throw new ValidatorException(fm);
         }
     }

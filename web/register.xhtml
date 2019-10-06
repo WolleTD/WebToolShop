@@ -36,28 +36,33 @@
             }
         </style>
         <div class="text-center">
-            <h:message for="register-form" showSummary="true" showDetail="false"/>
             <h:form class="form-signin" id="register-form">
             <ui:fragment rendered="#{!registerBean.registered}">
             <h1 class="h3 mb-3 font-weight-normal">Registrieren</h1>
-            <h:outputLabel for="username" value="Name" />
+            <div style="color:#ff0000;"><h:message for="lastname" showSummary="true" showDetail="false" /></div>
+            <h:outputLabel for="lastname" value="Name" />
             <h:inputText styleClass="form-control" id="lastname" value="#{registerBean.lastname}"
                          validator="#{registerBean.validateLastName}" />
-            <h:outputLabel for="username" value="Vorname" />
+            <div style="color:#ff0000;"><h:message for="firstname" showSummary="true" showDetail="false" /></div>
+            <h:outputLabel for="firstname" value="Vorname" />
             <h:inputText styleClass="form-control" id="firstname" value="#{registerBean.firstname}">
-                <f:validateRegex pattern="[A-Z][a-z]{2,}" for="firstname"/>
+                <f:validateRegex pattern="([A-Z][a-z]+)([- ][A-Z][a-z]+)*" for="firstname" />
             </h:inputText>
-            <h:outputLabel for="username" value="EMail Adresse" />
+            <div style="color:#ff0000;"><h:message for="email" showSummary="true" showDetail="false" /></div>
+            <h:outputLabel for="email" value="EMail Adresse" />
             <h:inputText styleClass="form-control" id="email" value="#{registerBean.email}">
                 <f:validator validatorId="emailValidator"/>
             </h:inputText>
-            <h:outputLabel for="username" value="Telefon" />
+            <div style="color:#ff0000;"><h:message for="phone" showSummary="true" showDetail="false"/></div>
+            <h:outputLabel for="phone" value="Telefon" />
             <h:inputText styleClass="form-control" id="phone" value="#{registerBean.phone}"
                          validator="#{registerBean.validatePhone}" />
+            <div style="color:#ff0000;"><h:message for="username" showSummary="true" showDetail="false"/></div>
             <h:outputLabel for="username" value="Benutzername" />
             <h:inputText styleClass="form-control" id="username" value="#{registerBean.username}">
                 <f:validateRegex pattern="[a-zA-Z_0-9]{3,50}" for="username"/>
             </h:inputText>
+            <div style="color:#ff0000;"><h:message for="password" showSummary="true" showDetail="false"/></div>
             <h:outputLabel for="password" value="Passwort" />
             <h:inputSecret styleClass="form-control" id="password" value="#{registerBean.password}">
                 <f:validator validatorId="pwdValidator"/>

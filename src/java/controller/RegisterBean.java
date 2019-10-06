@@ -62,17 +62,17 @@ public class RegisterBean implements Serializable {
     public String register() {
         if(!this.validLastName) {
             FacesMessage msg = new FacesMessage("Nachname zu kurz!");
-            FacesContext.getCurrentInstance().addMessage("register-form", msg);
+            FacesContext.getCurrentInstance().addMessage("register-form:lastname", msg);
             return "register.xhtml";
         }
         if(!this.validPhone) {
             FacesMessage msg = new FacesMessage("Telefonnummer ungültig!");
-            FacesContext.getCurrentInstance().addMessage("register-form", msg);
+            FacesContext.getCurrentInstance().addMessage("register-form:phone", msg);
             return "register.xhtml";
         }
         if(!password.matches(passwordRepeat)) {
             FacesMessage msg = new FacesMessage("Passwörter stimmen nicht überein!");
-            FacesContext.getCurrentInstance().addMessage("register-form", msg);
+            FacesContext.getCurrentInstance().addMessage("register-form:password", msg);
             return "register.xhtml";
         }
         try {
@@ -86,7 +86,7 @@ public class RegisterBean implements Serializable {
             return "index.xhtml";
         } catch (Exception ex) {
             FacesMessage msg = new FacesMessage("Benutzername bereits vergeben!");
-            FacesContext.getCurrentInstance().addMessage("register-form", msg);
+            FacesContext.getCurrentInstance().addMessage("register-form:username", msg);
             Logger.getLogger(ProductBean.class.getName())
                     .log(Level.SEVERE, null, ex);
             return "register.xhtml";
@@ -168,7 +168,7 @@ public class RegisterBean implements Serializable {
         this.validLastName = false;
         if(!Pattern.matches(regex, name)){
             FacesMessage msg = new FacesMessage("Nachname muss aus mind. 3 Zeichen bestehen!");
-            context.addMessage("register-form", msg);
+            context.addMessage("register-form:lastname", msg);
         } else {
             this.validLastName = true;
         }
@@ -186,7 +186,7 @@ public class RegisterBean implements Serializable {
         this.validPhone = false;
         if(!Pattern.matches(regex, telnr)){
             FacesMessage msg = new FacesMessage("TelNr muss mit 0 beginnen, 8-15 Zahlen und nur Zahlen");
-            context.addMessage("register-form", msg);
+            context.addMessage("register-form:phone", msg);
         } else {
             this.validPhone = true;
         }

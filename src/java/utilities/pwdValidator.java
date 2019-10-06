@@ -40,7 +40,7 @@ public class pwdValidator implements Validator{
         
         if (!Pattern.matches(pattern, passwordString)){
             msg = "Passwort nicht sicher genug!";
-            fm = new FacesMessage(UIID, msg);
+            fm = new FacesMessage(msg);
             throw new ValidatorException(fm);
         }
                 
