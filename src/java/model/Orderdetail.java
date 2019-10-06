@@ -61,7 +61,7 @@ public class Orderdetail implements Serializable {
     private Date tStamp;
     @JoinColumn(name = "FK_OID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private Order1 fkOid;
+    private Orders fkOid;
     @JoinColumn(name = "FK_PID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Product fkPid;
@@ -112,11 +112,11 @@ public class Orderdetail implements Serializable {
         this.tStamp = tStamp;
     }
 
-    public Order1 getFkOid() {
+    public Orders getFkOid() {
         return fkOid;
     }
 
-    public void setFkOid(Order1 fkOid) {
+    public void setFkOid(Orders fkOid) {
         this.fkOid = fkOid;
     }
 

@@ -53,8 +53,6 @@ public class Branch implements Serializable {
     @JoinColumn(name = "FK_ADDID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Address fkAddid;
-    @OneToMany(mappedBy = "fKBranchID")
-    private List<Order1> order1List;
 
     public Branch() {
     }
@@ -99,15 +97,6 @@ public class Branch implements Serializable {
 
     public void setFkAddid(Address fkAddid) {
         this.fkAddid = fkAddid;
-    }
-
-    @XmlTransient
-    public List<Order1> getOrder1List() {
-        return order1List;
-    }
-
-    public void setOrder1List(List<Order1> order1List) {
-        this.order1List = order1List;
     }
 
     @Override

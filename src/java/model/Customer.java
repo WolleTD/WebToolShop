@@ -81,8 +81,6 @@ public class Customer implements Serializable {
     @JoinColumn(name = "FK_ACCID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Account fkAccid;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkCid")
-    private List<Order1> order1List;
 
     public Customer() {
     }
@@ -170,15 +168,6 @@ public class Customer implements Serializable {
 
     public void setFkAccid(Account fkAccid) {
         this.fkAccid = fkAccid;
-    }
-
-    @XmlTransient
-    public List<Order1> getOrder1List() {
-        return order1List;
-    }
-
-    public void setOrder1List(List<Order1> order1List) {
-        this.order1List = order1List;
     }
 
     @Override
