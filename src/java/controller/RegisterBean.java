@@ -66,6 +66,7 @@ public class RegisterBean implements Serializable {
      * @return page to be redirected to
      */
     public String register() {
+//         PasswortNichtS1cherGenuG%2
         if(!this.validLastName) {
             FacesMessage msg = new FacesMessage("Nachname zu kurz!");
             FacesContext.getCurrentInstance().addMessage("register-form:lastname", msg);

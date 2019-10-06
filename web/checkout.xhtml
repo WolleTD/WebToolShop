@@ -1,0 +1,25 @@
+<ui:composition template="WEB-INF/template/master.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <h:form prependId="false">
+            <div style="overflow-y: auto; height: 100%">
+                <h3>Bestellung erfolgreich!</h3>
+                <h:panelGrid columns="2">
+                     <h:outputLabel for="orderId" value="Bestellnumer" />
+                     <h:outputText id="orderId" value="#{orderBean.order.id}" />
+                     <h:outputLabel for="orderStatus" value="Status" />
+                     <h:outputText id="orderStatus" value="#{orderBean.order.status}" />
+                     <h:outputLabel for="recipient" value="Empfänger" />
+                     <h:outputText id="recipient" value="#{loginBean.customer.lastname}" />
+                     <h:outputLabel for="street" value="Straße" />
+                     <h:outputText id="street" value="#{loginBean.customer.fkAddid.street} #{loginBean.customer.fkAddid.number}" />
+                     <h:outputLabel for="city" value="Stadt" />
+                     <h:outputText id="city" value="#{loginBean.customer.fkAddid.postcode} #{loginBean.customer.fkAddid.location}" />
+                </h:panelGrid>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>

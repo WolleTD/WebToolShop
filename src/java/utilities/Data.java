@@ -72,17 +72,6 @@ public class Data implements Serializable {
         }
     }
     
-    public Address findAddressByCustomer(Customer customer){
-        EntityManager em = emf.createEntityManager();
-        try{    
-            TypedQuery<Address> query = em.createNamedQuery("Address.findById", Address.class);
-            query.setParameter("id", customer.getFkAddid());
-            return query.getSingleResult();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-    
     public boolean registerUser(Account account, Address address, Customer customer) {
         EntityManager em = emf.createEntityManager();
         try{

@@ -52,7 +52,7 @@ public class OrderBean {
         else {
             order = new Orders(null);
             order.setStatus("Bestellungsprüfung");
-            order.setFkCid(lb.getCurrentCustomer());
+            order.setFkCid(lb.getCustomer());
             ArrayList<Orderdetail> details = new ArrayList<>();
             cb.getProductList().forEach((entry) -> {
                 Orderdetail d = new Orderdetail(null, entry.getAmount(), new BigDecimal(0), new Date());

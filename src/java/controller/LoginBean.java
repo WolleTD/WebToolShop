@@ -94,7 +94,7 @@ public class LoginBean implements Serializable {
      * 
      * @return current Account object
      */
-    public Account getCurrentAccount() {
+    public Account getAccount() {
         return currentAccount;
     }
     
@@ -102,16 +102,8 @@ public class LoginBean implements Serializable {
      * 
      * @return current customer
      */
-    public Customer getCurrentCustomer() {
+    public Customer getCustomer() {
         return db.findKundeByAccount(currentAccount);
-    }
-    
-    /**
-     * 
-     * @return current customer
-     */
-    public Address getCurrentAddress() {
-        return db.findAddressByCustomer(db.findKundeByAccount(currentAccount));
     }
     
     /**
