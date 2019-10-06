@@ -8,6 +8,7 @@ package utilities;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +21,8 @@ import javax.transaction.UserTransaction;
 import model.Account;
 import model.Address;
 import model.Customer;
+import model.Orderdetail;
+import model.Orders;
 import model.Product;
 
 /**
@@ -69,6 +72,17 @@ public class Data implements Serializable {
         }
     }
     
+    public Address findAddressByCustomer(Customer customer){
+        EntityManager em = emf.createEntityManager();
+        try{    
+            TypedQuery<Address> query = em.createNamedQuery("Address.findById", Address.class);
+            query.setParameter("id", customer.getFkAddid());
+            return query.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
     public boolean registerUser(Account account, Address address, Customer customer) {
         EntityManager em = emf.createEntityManager();
         try{
@@ -77,6 +91,24 @@ public class Data implements Serializable {
             em.persist(account);
             em.persist(address);
             em.persist(customer);
+            ut.commit();
+            return true;
+        } catch(Exception e) {
+            try { ut.rollback();}
+            catch (Exception e1) {}
+            return false;
+        }
+    }
+    
+    public boolean addOrder(Orders order, ArrayList<Orderdetail> details) {
+        EntityManager em = emf.createEntityManager();
+        try{
+            ut.begin();
+            em.joinTransaction();
+            em.persist(order);
+            details.forEach((entry) -> {
+                em.persist(entry);
+            });
             ut.commit();
             return true;
         } catch(Exception e) {

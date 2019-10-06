@@ -6,13 +6,13 @@
     <ui:define name="content">
         <h:form prependId="false">
             <div style="overflow-y: auto; height: 100%">
+                <h:message for="order-error" showSummary="true" showDetail="false" />
                 <h:dataTable 
                     id ="table1"
                     value="#{cartBean.productList}"
                     class="table table-striped table-bordered"
                     var="cartEntry"
                     border="1">
-                    <!--<h:outputText value="Fahrzeug"/>-->
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value="Produkt"/>
@@ -51,7 +51,7 @@
                     <h:commandButton
                         id="bestellBtn"
                         value="Bestellen"
-                        action="#{cartBean.placeOrder}">
+                        action="#{orderBean.placeOrder}">
                         <f:ajax render="@form" execute="@form"/>
                     </h:commandButton>
                     <h:message

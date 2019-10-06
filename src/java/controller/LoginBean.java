@@ -16,6 +16,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import model.Account;
+import model.Address;
+import model.Customer;
 import utilities.Data;
 
 /**
@@ -29,6 +31,7 @@ public class LoginBean implements Serializable {
     private String username = null;
     private String password = null;
     private String returnUrl = "index.xhtml";
+    private Account currentAccount = null;
     @Inject
     private Data db;
     
@@ -55,6 +58,7 @@ public class LoginBean implements Serializable {
 
             if(acc.getPwd().equals(pwHash)) {
                 password = null;
+                currentAccount = acc;
                 FacesMessage msg = new FacesMessage("Erfolgreich eingeloggt!");
                 FacesContext.getCurrentInstance().addMessage("login-form", msg);
                 return returnUrl;
@@ -79,11 +83,37 @@ public class LoginBean implements Serializable {
      */
     public String logout() {
         username = null;
+        currentAccount = null;
         returnUrl = "index.xhtml";
         FacesMessage msg = new FacesMessage("Erfolgreich ausgeloggt!");
         FacesContext.getCurrentInstance().addMessage("login-form", msg);
         return "login.xhtml";
     }
+    
+    /**
+     * 
+     * @return current Account object
+     */
+    public Account getCurrentAccount() {
+        return currentAccount;
+    }
+    
+    /**
+     * 
+     * @return current customer
+     */
+    public Customer getCurrentCustomer() {
+        return db.findKundeByAccount(currentAccount);
+    }
+    
+    /**
+     * 
+     * @return current customer
+     */
+    public Address getCurrentAddress() {
+        return db.findAddressByCustomer(db.findKundeByAccount(currentAccount));
+    }
+    
     /**
      * @return the username
      */
