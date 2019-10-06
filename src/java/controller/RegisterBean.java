@@ -90,11 +90,9 @@ public class RegisterBean implements Serializable {
                 Account acc = new Account(null, false, username, new Date(), pwHash);
                 Address add = new Address(null, street, streetNr, city, postcode, "Deutschland", new Date());
                 Customer cust = new Customer(null, firstname, lastname, email, phone);
-                db.setAccount(acc);
-                db.setAddress(add);
                 cust.setFkAccid(acc);
                 cust.setFkAddid(add);
-                db.setCustomer(cust);
+                db.registerUser(acc, add, cust);
                 lb.setUsername(username);
                 lb.setPassword(null);
                 return "index.xhtml";

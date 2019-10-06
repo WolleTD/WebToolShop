@@ -85,47 +85,4 @@ public class Data implements Serializable {
             return false;
         }
     }
-    
-    public void setAccount(Account account) {
-        EntityManager em = emf.createEntityManager();
-        try{
-            ut.begin();
-            em.joinTransaction();
-            em.persist(account);
-            ut.commit();
-        } catch(Exception e) {
-            try { ut.rollback();}
-            catch (Exception e1) {}
-        }
-    }
-    
-    public void setAddress(Address address) {
-        EntityManager em = emf.createEntityManager();
-        try{
-            ut.begin();
-            em.joinTransaction();
-            em.persist(address);
-            ut.commit();
-        } catch(Exception e) {
-            try { ut.rollback();}
-            catch (Exception e1) {}
-        }
-    }
-    
-    public void setCustomer(Customer kunde) {
-        EntityManager em = emf.createEntityManager();
-        try{
-            ut.begin();
-            em.joinTransaction();
-            em.persist(kunde);
-            ut.commit();
-        } catch(Exception e) {
-            Logger.getLogger(Data.class.getName())
-                .log(Level.SEVERE, null, e);
-            try { ut.rollback();}
-            catch (Exception e1) {
-            Logger.getLogger(Data.class.getName())
-                .log(Level.SEVERE, null, e1);}
-        }
-    }
 }
