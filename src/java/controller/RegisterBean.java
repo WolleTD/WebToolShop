@@ -23,6 +23,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.persistence.PersistenceContext;
 import model.Account;
+import model.Address;
+import model.Customer;
 import utilities.Data;
 
 /**
@@ -35,6 +37,10 @@ public class RegisterBean implements Serializable {
 
     private String firstname = null;
     private String lastname = null;
+    private String street = null;
+    private String streetNr = null;
+    private String city = null;
+    private String postcode = null;
     private String email = null;
     private String phone = null;
     private String username = null;
@@ -75,20 +81,31 @@ public class RegisterBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage("register-form:password", msg);
             return "register.xhtml";
         }
-        try {
-            MessageDigest sha256sum = MessageDigest.getInstance("SHA-256");
-            sha256sum.update(password.getBytes(StandardCharsets.UTF_8));
-            byte[] digest = sha256sum.digest();
-            String pwHash = String.format("%064x", new BigInteger(1, digest));
-            db.setAccount(new Account(null, false, username, new Date(), pwHash));
-            lb.setUsername(username);
-            lb.setPassword(null);
-            return "index.xhtml";
-        } catch (Exception ex) {
+        if(db.findAccount(username) == null) {
+            try {
+                MessageDigest sha256sum = MessageDigest.getInstance("SHA-256");
+                sha256sum.update(password.getBytes(StandardCharsets.UTF_8));
+                byte[] digest = sha256sum.digest();
+                String pwHash = String.format("%064x", new BigInteger(1, digest));
+                Account acc = new Account(null, false, username, new Date(), pwHash);
+                Address add = new Address(null, street, streetNr, city, postcode, "Deutschland", new Date());
+                Customer cust = new Customer(null, firstname, lastname, email, phone);
+                db.setAccount(acc);
+                db.setAddress(add);
+                cust.setFkAccid(acc);
+                cust.setFkAddid(add);
+                db.setCustomer(cust);
+                lb.setUsername(username);
+                lb.setPassword(null);
+                return "index.xhtml";
+            } catch(NoSuchAlgorithmException ex) {
+                Logger.getLogger(ProductBean.class.getName())
+                    .log(Level.SEVERE, null, ex);
+                return "register.xhtml";
+            }
+        } else {
             FacesMessage msg = new FacesMessage("Benutzername bereits vergeben!");
             FacesContext.getCurrentInstance().addMessage("register-form:username", msg);
-            Logger.getLogger(ProductBean.class.getName())
-                    .log(Level.SEVERE, null, ex);
             return "register.xhtml";
         }
     }
@@ -246,5 +263,61 @@ public class RegisterBean implements Serializable {
      */
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    /**
+     * @return the street
+     */
+    public String getStreet() {
+        return street;
+    }
+
+    /**
+     * @param street the street to set
+     */
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    /**
+     * @return the streetNr
+     */
+    public String getStreetNr() {
+        return streetNr;
+    }
+
+    /**
+     * @param streetNr the streetNr to set
+     */
+    public void setStreetNr(String streetNr) {
+        this.streetNr = streetNr;
+    }
+
+    /**
+     * @return the city
+     */
+    public String getCity() {
+        return city;
+    }
+
+    /**
+     * @param city the city to set
+     */
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    /**
+     * @return the postcode
+     */
+    public String getPostcode() {
+        return postcode;
+    }
+
+    /**
+     * @param postcode the postcode to set
+     */
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
     }
 }

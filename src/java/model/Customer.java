@@ -59,12 +59,12 @@ public class Customer implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "Lastname")
     private String lastname;
-    @Basic(optional = false)
-    @NotNull
+    @Basic(optional = true)
     @Size(min = 1, max = 4)
     @Column(name = "Title")
     private String title;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Basic(optional = false)
     @Size(max = 100)
     @Column(name = "EMail")
     private String eMail;
@@ -89,11 +89,11 @@ public class Customer implements Serializable {
         this.id = id;
     }
 
-    public Customer(Integer id, String firstname, String lastname, String title, String tel) {
+    public Customer(Integer id, String firstname, String lastname, String eMail, String tel) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.title = title;
+        this.eMail = eMail;
         this.tel = tel;
     }
 

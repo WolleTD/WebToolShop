@@ -9,6 +9,8 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -16,6 +18,7 @@ import javax.persistence.PersistenceUnit;
 import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
 import model.Account;
+import model.Address;
 import model.Customer;
 import model.Product;
 
@@ -66,12 +69,42 @@ public class Data implements Serializable {
         }
     }
     
+    public boolean registerUser(Account account, Address address, Customer customer) {
+        EntityManager em = emf.createEntityManager();
+        try{
+            ut.begin();
+            em.joinTransaction();
+            em.persist(account);
+            em.persist(address);
+            em.persist(customer);
+            ut.commit();
+            return true;
+        } catch(Exception e) {
+            try { ut.rollback();}
+            catch (Exception e1) {}
+            return false;
+        }
+    }
+    
     public void setAccount(Account account) {
         EntityManager em = emf.createEntityManager();
         try{
             ut.begin();
             em.joinTransaction();
             em.persist(account);
+            ut.commit();
+        } catch(Exception e) {
+            try { ut.rollback();}
+            catch (Exception e1) {}
+        }
+    }
+    
+    public void setAddress(Address address) {
+        EntityManager em = emf.createEntityManager();
+        try{
+            ut.begin();
+            em.joinTransaction();
+            em.persist(address);
             ut.commit();
         } catch(Exception e) {
             try { ut.rollback();}
@@ -87,8 +120,12 @@ public class Data implements Serializable {
             em.persist(kunde);
             ut.commit();
         } catch(Exception e) {
+            Logger.getLogger(Data.class.getName())
+                .log(Level.SEVERE, null, e);
             try { ut.rollback();}
-            catch (Exception e1) {}
+            catch (Exception e1) {
+            Logger.getLogger(Data.class.getName())
+                .log(Level.SEVERE, null, e1);}
         }
     }
 }

@@ -48,6 +48,26 @@
             <h:inputText styleClass="form-control" id="firstname" value="#{registerBean.firstname}">
                 <f:validateRegex pattern="([A-Z][a-z]+)([- ][A-Z][a-z]+)*" for="firstname" />
             </h:inputText>
+            <div style="color:#ff0000;"><h:message for="street" showSummary="true" showDetail="false" /></div>
+            <h:outputLabel for="street" value="Straße" />
+            <h:inputText styleClass="form-control" id="street" value="#{registerBean.street}">
+                <f:validateRegex pattern="([A-Z][a-z]+\.?)([- ][A-Z][a-z]+\.?)*" for="street" />
+            </h:inputText>
+            <div style="color:#ff0000;"><h:message for="streetNr" showSummary="true" showDetail="false" /></div>
+            <h:outputLabel for="streetNr" value="Hausnummer" />
+            <h:inputText styleClass="form-control" id="streetNr" value="#{registerBean.streetNr}">
+                <f:validateRegex pattern="[1-9][0-9]*[a-zA-Z]*" for="streetNr" />
+            </h:inputText>
+            <div style="color:#ff0000;"><h:message for="city" showSummary="true" showDetail="false" /></div>
+            <h:outputLabel for="city" value="Stadt" />
+            <h:inputText styleClass="form-control" id="city" value="#{registerBean.city}">
+                <f:validateRegex pattern="([A-Z][a-z]+)([- ][A-Z][a-z]+)*" for="city" />
+            </h:inputText>
+            <div style="color:#ff0000;"><h:message for="postcode" showSummary="true" showDetail="false" /></div>
+            <h:outputLabel for="postcode" value="Postleitzahl" />
+            <h:inputText styleClass="form-control" id="postcode" value="#{registerBean.postcode}">
+                <f:validateRegex pattern="[1-9][0-9]{4}" for="postcode" />
+            </h:inputText>
             <div style="color:#ff0000;"><h:message for="email" showSummary="true" showDetail="false" /></div>
             <h:outputLabel for="email" value="EMail Adresse" />
             <h:inputText styleClass="form-control" id="email" value="#{registerBean.email}">
